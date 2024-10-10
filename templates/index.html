@@ -1,0 +1,28 @@
+{{ define "content" }}
+<h1>ASCII Art Generator</h1>
+<form action="/" method="post">
+    <label for="text">Text:</label>
+    <input type="text" id="text" name="text" required>
+
+    <fieldset>
+        <legend>Select a banner:</legend>
+        <label><input type="radio" name="banner" value="shadow" required > Shadow</label>
+        <label><input type="radio" name="banner" value="standard" checked> Standard</label>
+        <label><input type="radio" name="banner" value="thinkertoy"> Thinkertoy</label>
+    </fieldset>
+
+    <button type="submit">Generate ASCII Art</button>
+</form>
+
+<!-- Place to display results -->
+<div>
+    {{.Result.Res}}
+</div>
+<br>
+<div>
+    <pre>
+        {{.Result.Res1}}
+    </pre>
+</div>
+
+{{ end }}
