@@ -1,9 +1,8 @@
 {{ define "content" }}
 <h1>ASCII Art Generator</h1>
-<form action="/" method="post">
+<form action="/ascii-art" method="post">
     <label for="text">Text:</label>
-    <input type="text" id="text" name="text" required>
-
+    <textarea id="text" name="text" required></textarea>
     <fieldset>
         <legend>Select a banner:</legend>
         <label><input type="radio" name="banner" value="shadow" required > Shadow</label>

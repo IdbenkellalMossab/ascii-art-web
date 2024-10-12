@@ -1,6 +1,11 @@
 package function
 
+import (
+	"strings"
+)
+
 func Split(str string) []string {
+	str = strings.ReplaceAll(str, "\r\n", "\\n")
 	slice := []string{}
 	newStr := ""
 
