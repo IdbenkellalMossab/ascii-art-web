@@ -25,7 +25,6 @@ func errorHandler(w http.ResponseWriter, status int) {
 }
 
 func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
-
 	if r.Method != http.MethodPost {
 		// Just return without processing or redirecting
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
@@ -42,10 +41,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	renderTemplate(w, "Home Page", &res)
-	res = result{
-		Res:  "", // Set to empty string
-		Res1: "", // Set to empty string
-	}
 }
 
 func renderTemplate(w http.ResponseWriter, title string, result *result) {
