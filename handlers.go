@@ -25,11 +25,14 @@ func errorHandler(w http.ResponseWriter, status int) {
 }
 
 func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
+	
 	if r.Method != http.MethodPost {
-		errorHandler(w, http.StatusMethodNotAllowed)
+		// Just return without processing or redirecting
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
 	}
-	res = result{Res: r.FormValue("banner"), Res1: "\n" + artHandler(r.FormValue("text"), r.FormValue("banner"))}
 	r.ParseForm()
+	res = result{Res: r.FormValue("banner"), Res1: "\n" + artHandler(r.FormValue("text"), r.FormValue("banner"))}
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
@@ -39,6 +42,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	renderTemplate(w, "Home Page", &res)
+	res = result{
+		Res:  "",   // Set to empty string
+		Res1: "",   // Set to empty string
+	}
 }
 
 func renderTemplate(w http.ResponseWriter, title string, result *result) {
