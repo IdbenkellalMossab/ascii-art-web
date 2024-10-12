@@ -14,29 +14,34 @@ type result struct {
 }
 
 var templates = template.Must(template.ParseGlob("templates/*.html"))
+var res result
 
 // Page not found
-func errorHandler(w http.ResponseWriter, r *http.Request, status int) {
+func errorHandler(w http.ResponseWriter, status int) {
 	w.WriteHeader(status)
 	if status == http.StatusNotFound {
 		fmt.Fprint(w, "custom 404")
 	}
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" && r.URL.Path != "/ascii-art" {
-		errorHandler(w, r, http.StatusNotFound)
-		return
+func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		errorHandler(w, http.StatusMethodNotAllowed)
 	}
-	if r.Method == http.MethodPost {
-		r.ParseForm()
-	}
-	a := result{Res: r.FormValue("banner"), Res1: "\n" + artHandler(r.FormValue("text"), r.FormValue("banner"))}
-	renderTemplate(w, "index.html", "Home Page", &a)
-
+	res = result{Res: r.FormValue("banner"), Res1: "\n" + artHandler(r.FormValue("text"), r.FormValue("banner"))}
+	r.ParseForm()
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
-func renderTemplate(w http.ResponseWriter, tmpl string, title string, result *result) {
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		errorHandler(w, http.StatusNotFound)
+		return
+	}
+	renderTemplate(w, "Home Page", &res)
+}
+
+func renderTemplate(w http.ResponseWriter, title string, result *result) {
 	err := templates.ExecuteTemplate(w, "layout.html", map[string]interface{}{
 		"Title":  title,
 		"Result": result, // Pass the result to the template
