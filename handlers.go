@@ -16,13 +16,25 @@ type result struct {
 var templates = template.Must(template.ParseGlob("templates/*.html"))
 var res result
 
-// Page not found
+// Error handler
 func errorHandler(w http.ResponseWriter, status int) {
 	w.WriteHeader(status)
-	if status == http.StatusNotFound {
-		fmt.Fprint(w, "Page not found 404")
+	switch status {
+	case http.StatusNotFound:
+		// Handle 404 Not Found
+		fmt.Fprint(w, "Page not found (404)")
+	case http.StatusMethodNotAllowed:
+		// Handle 405 Method Not Allowed
+		fmt.Fprint(w, "Method not allowed (405)")
+	case http.StatusInternalServerError:
+		// Handle 500 Internal Server Error
+		fmt.Fprint(w, "Internal server error (500)")
+	default:
+		// Handle other statuses generically
+		fmt.Fprintf(w, "Error %d", status)
 	}
 }
+
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
@@ -48,12 +60,12 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		} else {
-			// Return an error if the path is incorrect
+			// 404 Error for incorrect path
 			errorHandler(w, http.StatusNotFound)
 		}
 	default:
-		// Return an error if the request method is not supported
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		// 405 Error for unsupported methods
+		errorHandler(w, http.StatusMethodNotAllowed)
 	}
 }
 
@@ -64,7 +76,7 @@ func renderTemplate(w http.ResponseWriter, title string, result *result) {
 	})
 	// Server error
 	if err != nil {
-		http.Error(w, "Unable to load template", http.StatusInternalServerError)
+		errorHandler(w, http.StatusInternalServerError)
 	}
 }
 
