@@ -41,6 +41,10 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	renderTemplate(w, "Home Page", &res)
+	res = result{
+		Res:  "", // Set to empty string
+		Res1: "", // Set to empty string
+	}
 }
 
 func renderTemplate(w http.ResponseWriter, title string, result *result) {
