@@ -11,10 +11,13 @@ import (
 type result struct {
 	Res  string
 	Res1 string
+	Err string
 }
 
-var templates = template.Must(template.ParseGlob("templates/*.html"))
-var res result
+var (
+	templates = template.Must(template.ParseGlob("templates/*.html"))
+	res result
+)
 
 // Error handler
 func errorHandler(w http.ResponseWriter, status int) {
@@ -44,7 +47,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			renderTemplate(w, "Home Page", &res)
 			res = result{
 				Res:  "", // Clear previous values
-				Res1: "", // Clear previous values
+				Res1: "", 
+				Err: "",
 			}
 		} else {
 			// Return an error if the path is incorrect
@@ -54,9 +58,31 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/ascii-art" {
 			// Handle POST requests for /ascii-art
 			r.ParseForm()
-			res = result{
-				Res:  r.FormValue("banner"),
-				Res1: "\n" + artHandler(r.FormValue("text"), r.FormValue("banner")),
+			text := r.FormValue("text")
+			banner := r.FormValue("banner")
+			if text == "" || banner == "" {
+				// Set error message if any field is empty
+				res = result{
+					Err: "Text or Banner cannot be empty",
+				}
+			}else {
+				// Generate ascii-art
+				artResult := artHandler(text, banner)
+				
+				// Check if special characters are present
+				if artResult == "Special charactere is not allowed." {
+					// Set error message for non-printable characters
+					res = result{
+						Err: "Please enter printable ASCII characters only.",
+					}
+				} else {
+					// Process form values and generate ASCII art if valid
+					res = result{
+						Res:  banner,
+						Res1: "\n" + artResult,
+						Err:  "", // Clear error
+					}
+				}
 			}
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		} else {
@@ -80,6 +106,7 @@ func renderTemplate(w http.ResponseWriter, title string, result *result) {
 	}
 }
 
+//func Generate ascii-art
 func artHandler(sentence string, banner string) string {
 	if len(sentence) == 0 {
 		return ""

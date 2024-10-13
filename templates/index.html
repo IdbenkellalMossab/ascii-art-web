@@ -1,6 +1,7 @@
 {{ define "content" }}
 <h1>ASCII Art Generator</h1>
 <form action="/ascii-art" method="post">
+    <h2 name="err">{{.Result.Err}}:</h2>
     <label for="text">Text:</label>
     <textarea id="text" name="text" required></textarea>
     <fieldset>
