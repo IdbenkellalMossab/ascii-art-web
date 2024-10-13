@@ -24,26 +24,36 @@ func errorHandler(w http.ResponseWriter, status int) {
 	}
 }
 
-func asciiArtHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		// Just return without processing or redirecting
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-		return
-	}
-	r.ParseForm()
-	res = result{Res: r.FormValue("banner"), Res1: "\n" + artHandler(r.FormValue("text"), r.FormValue("banner"))}
-	http.Redirect(w, r, "/", http.StatusSeeOther)
-}
-
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		errorHandler(w, http.StatusNotFound)
-		return
-	}
-	renderTemplate(w, "Home Page", &res)
-	res = result{
-		Res:  "", // Set to empty string
-		Res1: "", // Set to empty string
+	switch r.Method {
+	case http.MethodGet:
+		if r.URL.Path == "/" {
+			// Display the homepage
+			renderTemplate(w, "Home Page", &res)
+			res = result{
+				Res:  "", // Clear previous values
+				Res1: "", // Clear previous values
+			}
+		} else {
+			// Return an error if the path is incorrect
+			errorHandler(w, http.StatusNotFound)
+		}
+	case http.MethodPost:
+		if r.URL.Path == "/ascii-art" {
+			// Handle POST requests for /ascii-art
+			r.ParseForm()
+			res = result{
+				Res:  r.FormValue("banner"),
+				Res1: "\n" + artHandler(r.FormValue("text"), r.FormValue("banner")),
+			}
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+		} else {
+			// Return an error if the path is incorrect
+			errorHandler(w, http.StatusNotFound)
+		}
+	default:
+		// Return an error if the request method is not supported
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
 }
 

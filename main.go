@@ -1,15 +1,13 @@
 package main
 
 import (
-    "net/http"
-    "fmt"
+	"fmt"
+	"net/http"
 )
 
-
 func main() {
-    http.HandleFunc("/", indexHandler)
-    http.HandleFunc("/ascii-art", asciiArtHandler)
+	http.HandleFunc("/", indexHandler)
 
-    fmt.Println("Starting server in 8080 ...")
-    http.ListenAndServe(":8080", nil)
+	fmt.Println("Server is running at http://localhost:8080")
+	http.ListenAndServe(":8080", nil)
 }
