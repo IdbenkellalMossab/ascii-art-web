@@ -11,12 +11,12 @@ import (
 type result struct {
 	Res  string
 	Res1 string
-	Err string
+	Err  string
 }
 
 var (
 	templates = template.Must(template.ParseGlob("templates/*.html"))
-	res result
+	res       result
 )
 
 // Error handler
@@ -38,7 +38,6 @@ func errorHandler(w http.ResponseWriter, status int) {
 	}
 }
 
-
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
@@ -47,8 +46,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			renderTemplate(w, "Home Page", &res)
 			res = result{
 				Res:  "", // Clear previous values
-				Res1: "", 
-				Err: "",
+				Res1: "",
+				Err:  "",
 			}
 		} else {
 			// Return an error if the path is incorrect
@@ -60,15 +59,18 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			r.ParseForm()
 			text := r.FormValue("text")
 			banner := r.FormValue("banner")
-			if text == "" || banner == "" {
-				// Set error message if any field is empty
+			if text == "" || banner == "" { // Set error message if any field is empty
 				res = result{
 					Err: "Text or Banner cannot be empty",
 				}
-			}else {
+			} else if len(text) > 700 { // Check if text exceeds 700 characters
+				res = result{
+					Err: "Please enter less than 700 characters.",
+				}
+			} else {
 				// Generate ascii-art
 				artResult := artHandler(text, banner)
-				
+
 				// Check if special characters are present
 				if artResult == "Special charactere is not allowed." {
 					// Set error message for non-printable characters
@@ -106,7 +108,7 @@ func renderTemplate(w http.ResponseWriter, title string, result *result) {
 	}
 }
 
-//func Generate ascii-art
+// func Generate ascii-art
 func artHandler(sentence string, banner string) string {
 	if len(sentence) == 0 {
 		return ""

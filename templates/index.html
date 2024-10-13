@@ -1,9 +1,9 @@
 {{ define "content" }}
 <h1>ASCII Art Generator</h1>
 <form action="/ascii-art" method="post">
-    <h2 name="err">{{.Result.Err}}:</h2>
+    <h2 name="err">{{.Result.Err}}</h2>
     <label for="text">Text:</label>
-    <textarea id="text" name="text" required></textarea>
+    <textarea id="text" name="text" maxlength="700" required></textarea>
     <fieldset>
         <legend>Select a banner:</legend>
         <label><input type="radio" name="banner" value="shadow"  > Shadow</label>
