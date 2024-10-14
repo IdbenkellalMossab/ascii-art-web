@@ -10,9 +10,8 @@
         <label><input type="radio" name="banner" value="standard" required> Standard</label>
         <label><input type="radio" name="banner" value="thinkertoy"> Thinkertoy</label>
     </fieldset>
-
     <button type="submit">Generate ASCII Art</button>
-</form>
+    <button type="button" onclick="clearText()">Clear Text</button></form>
 
 <!-- Place to display results -->
 
@@ -23,6 +22,10 @@
     </pre>
 </div>
 <script>
+    // When the button is Clear
+    function clearText() {
+        document.getElementById('text').value = ""; // Clear the textarea
+    }
     // When the form is submitted
     document.querySelector('form').onsubmit = function() {
         const textArea = document.getElementById('text'); // Get the textarea element
