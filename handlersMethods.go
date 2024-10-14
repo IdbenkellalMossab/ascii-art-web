@@ -21,7 +21,7 @@ func handleGet(w http.ResponseWriter, r *http.Request) {
 
 func handlePost(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/ascii-art" {
-		// Handle POST requests for /ascii-art
+		// Parse the form data
 		if err := r.ParseForm(); err != nil {
 			setError(w, r, "Failed to parse form data.")
 			return
