@@ -43,8 +43,3 @@
 
         return true; // Allow form submission if all checks pass
     };
-    // Check if the URL path contains '/Js/'
-    if (window.location.pathname.includes('/Js/')) {
-        alert('Access to this folder is denied.'); // Show alert message
-        window.location.href = '/'; // Redirect to the homepage
-    }
