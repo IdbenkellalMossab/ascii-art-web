@@ -22,7 +22,10 @@ func handleGet(w http.ResponseWriter, r *http.Request) {
 func handlePost(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/ascii-art" {
 		// Handle POST requests for /ascii-art
-		r.ParseForm()
+		if err := r.ParseForm(); err != nil {
+			setError(w, r, "Failed to parse form data.")
+			return
+		}
 		text := r.FormValue("text")
 		banner := r.FormValue("banner")
 		if text == "" || banner == "" { // Set error message if any field is empty
