@@ -24,7 +24,7 @@ func handleGet(w http.ResponseWriter, r *http.Request) {
 
 func handlePost(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		errorHandler(w, http.StatusBadRequest)
+		errorHandler(w, http.StatusMethodNotAllowed)
 		return
 	}
 

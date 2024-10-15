@@ -31,5 +31,5 @@ func setError(w http.ResponseWriter, r *http.Request, errorMessage string) {
 	res.Res1 = ""
 
 	// Force a reload of the page to show the error
-	http.Redirect(w, r, "/", http.StatusBadRequest)
+	http.Redirect(w, r, "/", http.StatusFound)
 }
