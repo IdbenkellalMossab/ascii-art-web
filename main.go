@@ -19,25 +19,26 @@ var (
 
 func main() {
 	http.Handle("/Js/", http.StripPrefix("/Js/", http.FileServer(http.Dir("Js"))))
-	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/", handleGet)
+	http.HandleFunc("/ascii-art", handlePost)
 
 	fmt.Println("Server is running at http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-		// handleGet processes GET requests and renders the home page.
-		handleGet(w, r)
-	case http.MethodPost:
-		// handlePost processes POST requests for the ASCII Art generation.
-		handlePost(w, r)
-	default:
-		// 405 Error for unsupported methods
-		errorHandler(w, http.StatusMethodNotAllowed)
-	}
-}
+// func indexHandler(w http.ResponseWriter, r *http.Request) {
+// 	switch r.Method {
+// 	case http.MethodGet:
+// 		// handleGet processes GET requests and renders the home page.
+// 		handleGet(w, r)
+// 	case http.MethodPost:
+// 		// handlePost processes POST requests for the ASCII Art generation.
+// 		handlePost(w, r)
+// 	default:
+// 		// 405 Error for unsupported methods
+// 		errorHandler(w, http.StatusMethodNotAllowed)
+// 	}
+// }
 
 func renderTemplate(w http.ResponseWriter, title string, result *result) {
 	err := templates.ExecuteTemplate(w, "layout.html", map[string]interface{}{

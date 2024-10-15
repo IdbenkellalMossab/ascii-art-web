@@ -4,7 +4,7 @@
     }
 
     // When the form is submitted
-    document.querySelector('form').onsubmit = function() {
+    /*document.querySelector('form').onsubmit = function() {
         const textArea = document.getElementById('text'); // Get the textarea element
         const radios = document.querySelectorAll('input[name="banner"]'); // Get all radio buttons
         let isRadioChecked = false; // Initialize a flag to check if any radio is selected
@@ -42,4 +42,4 @@
         }
 
         return true; // Allow form submission if all checks pass
-    };
+    };*/

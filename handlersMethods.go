@@ -5,6 +5,10 @@ import (
 )
 
 func handleGet(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		errorHandler(w, http.StatusBadRequest)
+		return
+	}
 	if r.URL.Path == "/" {
 		// Display the homepage
 		renderTemplate(w, "Home Page", &res)
@@ -14,12 +18,16 @@ func handleGet(w http.ResponseWriter, r *http.Request) {
 			Err:  "",
 		}
 	} else {
-		// Return an error if the path is incorrect
 		errorHandler(w, http.StatusNotFound)
 	}
 }
 
 func handlePost(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		errorHandler(w, http.StatusBadRequest)
+		return
+	}
+
 	if r.URL.Path == "/ascii-art" {
 		// Parse the form data
 		if err := r.ParseForm(); err != nil {
@@ -53,7 +61,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, "/", http.StatusFound)
 	} else {
 		// 404 Error for incorrect path
 		errorHandler(w, http.StatusNotFound)
