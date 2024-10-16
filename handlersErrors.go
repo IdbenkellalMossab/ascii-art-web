@@ -18,6 +18,12 @@ func errorHandler(w http.ResponseWriter, status int) {
 	case http.StatusInternalServerError:
 		// Handle 500 Internal Server Error
 		fmt.Fprint(w, "Internal server error (500)")
+	case http.StatusBadRequest:
+		// Handle 400 Bad Request
+		fmt.Fprint(w, "Bad request (400)")
+	case http.StatusForbidden:
+		// Handling 403 error
+		fmt.Fprint(w, "You do not have access to this resource (403)")
 	default:
 		// Handle other statuses generically
 		fmt.Fprintf(w, "Error %d", status)

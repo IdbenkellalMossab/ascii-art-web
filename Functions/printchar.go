@@ -1,11 +1,12 @@
 package function
 
+
 func PrintWords(words []string, slice [][]string) string {
 	str := ""
 	for _, w := range words { // here to manipulate element by element
 		for i := 1; i <= Hight_symbole; i++ { // to print the lines
 			if len(w) == 0 { // here each "" means it is a newLine
-				str += "\n"
+				str += "\r\n"
 				break // here to print \n only once
 			}
 			for _, e := range w {
@@ -16,7 +17,7 @@ func PrintWords(words []string, slice [][]string) string {
 				}
 			}
 			if i < Hight_symbole { // after each line return to the line
-				str += "\n"
+				str += "\r\n"
 			}
 		}
 	}

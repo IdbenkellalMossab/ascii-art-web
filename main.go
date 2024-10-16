@@ -18,9 +18,9 @@ var (
 )
 
 func main() {
-	http.Handle("/Js/", http.StripPrefix("/Js/", http.FileServer(http.Dir("Js"))))
-	http.HandleFunc("/", handleGet)
-	http.HandleFunc("/ascii-art", handlePost)
+	http.HandleFunc("/", getHandler)
+	http.HandleFunc("/ascii-art", postHandler)
+	http.HandleFunc("/Js/", jsHandler)
 
 	fmt.Println("Server is running at http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
