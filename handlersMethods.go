@@ -38,12 +38,12 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		text := r.FormValue("text")
 		banner := r.FormValue("banner")
 		if text == "" || banner == "" { // Set error message if any field is empty
-			//setError(w, r, "Text or Banner cannot be empty")
+			// setError(w, r, "Text or Banner cannot be empty")
 			errorHandler(w, http.StatusBadRequest)
 			return
 		}
 		if len(text) > 700 { // Check if text exceeds 700 characters
-			//setError(w, r, "Please enter less than 700 characters.")
+			// setError(w, r, "Please enter less than 700 characters.")
 			errorHandler(w, http.StatusBadRequest)
 			return
 		}
@@ -53,7 +53,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		// Check if special characters are present
 		if artResult == "Special charactere is not allowed." {
 			// Set error message for non-printable characters
-			//setError(w, r, "Please enter printable ASCII characters only.")
+			// setError(w, r, "Please enter printable ASCII characters only.")
 			errorHandler(w, http.StatusBadRequest)
 			return
 		} else {
@@ -78,6 +78,10 @@ func jsHandler(w http.ResponseWriter, r *http.Request) {
 	if strings.HasPrefix(r.URL.Path, "/Js/") {
 		// If the request is directly to /Js/, return a forbidden error
 		if r.URL.Path == "/Js/" {
+			errorHandler(w, http.StatusForbidden)
+			return
+		}
+		if r.URL.Path == "/Js/script.js" {
 			errorHandler(w, http.StatusForbidden)
 			return
 		}
