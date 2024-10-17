@@ -47,6 +47,17 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 			errorHandler(w, http.StatusBadRequest)
 			return
 		}
+			// Validate banner value
+			validBanners := map[string]bool{
+				"shadow":    true,
+				"standard":  true,
+				"thinkertoy": true,
+			}
+			if !validBanners[banner] {
+				errorHandler(w, http.StatusBadRequest) // Invalid banner value
+				return
+			}
+	
 		// Generate ascii-art
 		artResult := artHandler(text, banner)
 
