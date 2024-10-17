@@ -81,10 +81,10 @@ func jsHandler(w http.ResponseWriter, r *http.Request) {
 			errorHandler(w, http.StatusForbidden)
 			return
 		}
-		if r.URL.Path == "/Js/script.js" {
+		/*if r.URL.Path == "/Js/script.js" {
 			errorHandler(w, http.StatusForbidden)
 			return
-		}
+		}*/
 		// If the request is for a specific file, pass the request to http.FileServer
 		http.StripPrefix("/Js/", http.FileServer(http.Dir("Js"))).ServeHTTP(w, r)
 	} else {

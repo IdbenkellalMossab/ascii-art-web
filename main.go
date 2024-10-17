@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"log"
 )
 
 type result struct {
@@ -18,12 +19,24 @@ var (
 )
 
 func main() {
-	http.HandleFunc("/", getHandler)
+	/*http.HandleFunc("/", getHandler)
 	http.HandleFunc("/ascii-art", postHandler)
 	http.HandleFunc("/Js/", jsHandler)
 
 	fmt.Println("Server is running at http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", nil)*/
+
+	server := createServer()
+
+    registerRoutes()
+
+    // Start server
+	fmt.Println("Server is running at http://localhost:8080")
+    err := server.StartServer() 
+     if err != nil {
+            // If there's an error, store it and show it in the error page
+			log.Fatal("An error occurred while starting the server:", err)
+        }
 }
 
 // func indexHandler(w http.ResponseWriter, r *http.Request) {
