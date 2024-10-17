@@ -65,8 +65,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		// Check if special characters are present
 		if artResult == "Special charactere is not allowed." {
 			// Set error message for non-printable characters
-			// setError(w, r, "Please enter printable ASCII characters only.")
-			errorHandler(w, http.StatusBadRequest)
+			setError(w, r, "Please enter printable ASCII characters only.")
+			//errorHandler(w, http.StatusBadRequest)
 			return
 		} else {
 			// Process form values and generate ASCII art if valid
