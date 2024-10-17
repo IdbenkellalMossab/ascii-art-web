@@ -33,9 +33,9 @@ func errorHandler(w http.ResponseWriter, status int) {
 // setError sets the error message and redirects to the homepage.
 func setError(w http.ResponseWriter, r *http.Request, errorMessage string) {
 	res.Err = errorMessage // Set the error message
-	res.Res = ""           // Clear previous values
-	res.Res1 = ""
-
+	res.Symbol = ""           // Clear previous values
+	res.Banner=""
+	res.Text=""
 	// Force a reload of the page to show the error
 	http.Redirect(w, r, "/", http.StatusFound)
 }

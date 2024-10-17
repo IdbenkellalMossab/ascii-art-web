@@ -3,22 +3,25 @@
 <form action="/ascii-art" method="post">
     <h2 name="err">{{.Result.Err}}</h2>
     <label for="text">Text:</label>
-    <textarea id="text" name="text" maxlength="700" required></textarea>
+    <textarea id="text" name="text" maxlength="700" required>{{.Result.Text}}</textarea>
+    <!-- Retain the value -->
+
     <fieldset>
         <legend>Select a banner:</legend>
-        <label><input type="radio" name="banner" value="shadow"  checked> Shadow</label>
-        <label><input type="radio" name="banner" value="standard" required> Standard</label>
-        <label><input type="radio" name="banner" value="thinkertoy"> Thinkertoy</label>
+        <label><input type="radio" name="banner" value="shadow" {{if eq .Result.Banner "shadow"}}checked{{end}}> Shadow</label>
+        <label><input type="radio" name="banner" value="standard" {{if eq .Result.Banner "standard"}}checked{{end}} required> Standard</label>
+        <label><input type="radio" name="banner" value="thinkertoy" {{if eq .Result.Banner "thinkertoy"}}checked{{end}}> Thinkertoy</label>
     </fieldset>
+
     <button type="submit">Generate ASCII Art</button>
-    <button type="button" onclick="clearText()">Clear Text</button></form>
+    <button type="button" onclick="clearText()">Clear Text</button>
+</form>
 
 <!-- Place to display results -->
 
 <div id="reload">
-    {{.Result.Res}}
     <pre>
-        {{.Result.Res1}}
+        {{.Result.Symbol}}
     </pre>
 </div>
 {{ end }}

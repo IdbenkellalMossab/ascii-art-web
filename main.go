@@ -8,9 +8,10 @@ import (
 )
 
 type result struct {
-	Res  string
-	Res1 string
+	Symbol  string
 	Err  string
+	Text  string // Store the text value
+	Banner string // Store the selected banner value
 }
 
 var (
@@ -38,20 +39,6 @@ func main() {
 			log.Fatal("An error occurred while starting the server:", err)
         }
 }
-
-// func indexHandler(w http.ResponseWriter, r *http.Request) {
-// 	switch r.Method {
-// 	case http.MethodGet:
-// 		// handleGet processes GET requests and renders the home page.
-// 		handleGet(w, r)
-// 	case http.MethodPost:
-// 		// handlePost processes POST requests for the ASCII Art generation.
-// 		handlePost(w, r)
-// 	default:
-// 		// 405 Error for unsupported methods
-// 		errorHandler(w, http.StatusMethodNotAllowed)
-// 	}
-// }
 
 func renderTemplate(w http.ResponseWriter, title string, result *result) {
 	err := templates.ExecuteTemplate(w, "layout.html", map[string]interface{}{

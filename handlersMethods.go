@@ -14,8 +14,9 @@ func getHandler(w http.ResponseWriter, r *http.Request) {
 		// Display the homepage
 		renderTemplate(w, "Home Page", &res)
 		res = result{
-			Res:  "", // Clear previous values
-			Res1: "",
+			Symbol:  "", // Clear previous values
+			Banner: "",
+			Text: "",
 			Err:  "",
 		}
 	} else {
@@ -70,9 +71,10 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			// Process form values and generate ASCII art if valid
 			res = result{
-				Res:  banner,
-				Res1: "\n" + artResult,
+				Symbol: "\n" + artResult,
 				Err:  "", // Clear error
+				Text:  text, // Store the text
+				Banner: banner, // Store the selected banner
 			}
 		}
 
@@ -85,6 +87,10 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 
 // Function to handle requests to the /Js/ path
 func jsHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		errorHandler(w, http.StatusMethodNotAllowed)
+		return
+	}
 	// Check the path
 	if strings.HasPrefix(r.URL.Path, "/Js/") {
 		// If the request is directly to /Js/, return a forbidden error
